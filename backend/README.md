@@ -14,3 +14,5 @@ npx hardhat run scripts/deploy.ts
 
 
 - Contract: 0xBA270Fac745C38b360250Fc25084ae6457bBfDeA
+
+- Generate ABI: `solc --abi ./contracts/core/Non-Fungible-Token.sol -o ./contracts/abi --base-path ./node_modules`
