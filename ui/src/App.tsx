@@ -1,8 +1,11 @@
 import { ChakraBaseProvider, Select, extendBaseTheme } from '@chakra-ui/react';
-import { MetaMaskContextProvider } from './hooks/useMetaMask'
+import { WagmiConfig, configureChains, createConfig, mainnet, sepolia } from 'wagmi';
+import { publicProvider } from 'wagmi/providers/public';
+
 import { Home } from './components/home'
-import { MetaMaskError } from './components/meta-mask-error'
 import { Navigation } from './components/navigation'
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 
 const theme = extendBaseTheme({
   components: {
@@ -10,16 +13,36 @@ const theme = extendBaseTheme({
   },
 });
 
+const { chains, publicClient } = configureChains(
+  [mainnet, sepolia],
+  [
+    jsonRpcProvider({
+      rpc: () => ({
+        http: `https://rpc.sepolia.org`,
+      }),
+    }),
+    publicProvider()
+  ],
+)
+
+const config = createConfig({
+  autoConnect: true,
+  connectors: [
+    new MetaMaskConnector({ chains }),
+  ],
+  publicClient
+})
+
+
 function App() {
   return (
     <ChakraBaseProvider theme={theme}>
-      <MetaMaskContextProvider>
+      <WagmiConfig config={config}>
         <div className='flex flex-col h-full w-full'>
           <Navigation />
           <Home />
-          <MetaMaskError />
         </div>
-      </MetaMaskContextProvider>
+      </WagmiConfig>
     </ChakraBaseProvider>
   )
 }
