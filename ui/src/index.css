@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    box-sizing: content-box;
+}
+
+a {
+    font-weight: 500;
+    color: #e757fa;
+    text-decoration: underline;
+}
+a:hover {
+    color: #2bf9f9;
+}
