@@ -8,7 +8,7 @@ export const Navigation = () => {
     return (
         <div className="px-16 py-4 h-9 text-gray-200 bg-black flex items-center">
             <span>
-                Friend Tech Stack
+                Quattuor Taiwan
             </span>
             <div className="flex-1" />
             <span>
