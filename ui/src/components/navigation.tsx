@@ -1,4 +1,3 @@
-
 import { useMetaMask } from "../hooks/useMetaMask"
 import { formatAddress } from "../utils";
 

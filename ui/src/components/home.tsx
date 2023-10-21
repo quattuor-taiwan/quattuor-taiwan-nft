@@ -1,11 +1,40 @@
 
+
+import { useEffect, useState } from "react";
 import Web3 from "web3";
+import { Select } from "@chakra-ui/react";
 import { useMetaMask } from "../hooks/useMetaMask"
 import { CONTRACT_ADDRESS, FRIEND_TECH_ABI, formatChainAsNum } from "../utils"
-import { useEffect } from "react";
+
+interface ISelectOption {
+    label: string;
+    value: string;
+}
+
+enum Network {
+    EthereumMainnet = 'eth-mainnet',
+    EthereumSepolia = 'eth-sepolia'
+}
 
 export const Home = () => {
-    const { wallet } = useMetaMask()
+    const { wallet } = useMetaMask();
+    const [networkArray, setNetworkArray] = useState<Array<ISelectOption>>([]);
+    const [network, setNetwork] = useState<Network>(Network.EthereumMainnet);
+
+    useEffect(() => {
+        const defaultNetworkArray = [
+            {
+                label: 'Ethereum Mainnet',
+                value: 'eth-mainnet'
+            }, {
+                label: 'Ethereum Sepolia',
+                value: 'eth-sepolia'
+            }
+        ];
+
+        setNetworkArray(defaultNetworkArray);
+    }, [])
+
 
     useEffect(() => {
         const web3 = new Web3('https://mainnet.base.org');
@@ -15,10 +44,34 @@ export const Home = () => {
         friendTechContract.methods.owner().call().then(owner => {
             console.log(owner);
         })
-    }, [])
+    }, [network]);
+
+    const onChangeNetwork = (event: React.FormEvent<HTMLSelectElement>) => {
+        const value = event.currentTarget.value;
+        switch (value) {
+            case 'eth-mainnet':
+                setNetwork(Network.EthereumMainnet);
+                break;
+            case 'eth-sepolia':
+                setNetwork(Network.EthereumSepolia);
+                break;
+            default:
+                break;
+        }
+    }
 
     return (
         <div className="h-max p-4">
+            <Select value={network} onChange={(event) => { onChangeNetwork(event) }} icon={<></>}>
+                {
+                    networkArray.map(network => {
+                        return <option key={network.value} value={network.value}>
+                            {network.label}
+                        </option>
+                    })
+                }
+            </Select>
+
             <div>
                 Wallet Info:
             </div>
