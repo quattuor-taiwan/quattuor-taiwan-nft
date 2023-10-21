@@ -1,5 +1,6 @@
 ##### TODO
 - [X] 支援多個網路: ETH mainnet 和 ETH sepolia net
+- [ ] 監聽錢包是否切換網路
 - [ ] disconnect wallet
 - [ ] 讀取錢包餘額
 - [ ] 讀取錢包 NFT
