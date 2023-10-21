@@ -1,10 +1,9 @@
 
 
 import { useEffect, useState } from "react";
-import Web3 from "web3";
 import { Select } from "@chakra-ui/react";
 import { useMetaMask } from "../hooks/useMetaMask"
-import { CONTRACT_ADDRESS, FRIEND_TECH_ABI, formatChainAsNum } from "../utils"
+import { formatChainAsNum } from "../utils"
 
 interface ISelectOption {
     label: string;
@@ -21,6 +20,16 @@ export const Home = () => {
     const [networkArray, setNetworkArray] = useState<Array<ISelectOption>>([]);
     const [network, setNetwork] = useState<Network>(Network.EthereumMainnet);
 
+    // useEffect(() => {
+    //     const web3 = new Web3('https://mainnet.base.org');
+
+    //     const friendTechContract = new web3.eth.Contract(FRIEND_TECH_ABI, CONTRACT_ADDRESS);
+
+    //     friendTechContract.methods.owner().call().then(owner => {
+    //         console.log(owner);
+    //     })
+    // }, [network]);
+
     useEffect(() => {
         const defaultNetworkArray = [
             {
@@ -35,24 +44,13 @@ export const Home = () => {
         setNetworkArray(defaultNetworkArray);
     }, [])
 
-
-    useEffect(() => {
-        const web3 = new Web3('https://mainnet.base.org');
-
-        const friendTechContract = new web3.eth.Contract(FRIEND_TECH_ABI, CONTRACT_ADDRESS);
-
-        friendTechContract.methods.owner().call().then(owner => {
-            console.log(owner);
-        })
-    }, [network]);
-
     const onChangeNetwork = (event: React.FormEvent<HTMLSelectElement>) => {
-        const value = event.currentTarget.value;
+        const value = event.currentTarget.value as Network;
         switch (value) {
-            case 'eth-mainnet':
+            case Network.EthereumMainnet:
                 setNetwork(Network.EthereumMainnet);
                 break;
-            case 'eth-sepolia':
+            case Network.EthereumSepolia:
                 setNetwork(Network.EthereumSepolia);
                 break;
             default:
