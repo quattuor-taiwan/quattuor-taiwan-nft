@@ -1,6 +1,7 @@
 ##### TODO
-- [ ] 支援多個網路: ETH mainnet 和 ETH sepolia net
+- [X] 支援多個網路: ETH mainnet 和 ETH sepolia net
 - [ ] disconnect wallet
+- [ ] 讀取錢包餘額
 - [ ] 讀取錢包 NFT
 
 ##### Ref
