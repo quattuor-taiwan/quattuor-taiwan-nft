@@ -4,7 +4,6 @@ import { publicProvider } from 'wagmi/providers/public';
 
 import { Home } from './components/home'
 import { Navigation } from './components/navigation'
-import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 
 const theme = extendBaseTheme({
@@ -13,16 +12,9 @@ const theme = extendBaseTheme({
   },
 });
 
-const { chains, publicClient } = configureChains(
+const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet, sepolia],
-  [
-    jsonRpcProvider({
-      rpc: () => ({
-        http: `https://rpc.sepolia.org`,
-      }),
-    }),
-    publicProvider()
-  ],
+  [publicProvider()],
 )
 
 const config = createConfig({
@@ -30,7 +22,8 @@ const config = createConfig({
   connectors: [
     new MetaMaskConnector({ chains }),
   ],
-  publicClient
+  publicClient,
+  webSocketPublicClient,
 })
 
 
